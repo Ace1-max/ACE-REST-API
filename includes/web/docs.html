@@ -185,23 +185,18 @@
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/dono.js"></script>
 
     <script>
-        // Dynamic Title and Welcome Message based on time
         const hours = new Date().getHours();
-        const pageTitle = document.getElementById('page-title');
         const welcomeTitle = document.getElementById('welcome-title');
         const welcomeMessage = document.getElementById('welcome-message');
 
         if (hours < 12) {
-            pageTitle.textContent = "Good Morning - Ajiro API Dashboard";
-            welcomeTitle.textContent = "Good Morning!";
+            welcomeTitle.textContent = "Good Morning! Welcome to ACE REST-API Dashboard";
             welcomeMessage.textContent = "Start exploring our API collection.";
         } else if (hours < 18) {
-            pageTitle.textContent = "Good Afternoon - Ajiro API Dashboard";
-            welcomeTitle.textContent = "Good Afternoon!";
+            welcomeTitle.textContent = "Good Afternoon! Welcome to ACE REST-API Dashboard";
             welcomeMessage.textContent = "Hope you're having a productive day.";
         } else {
-            pageTitle.textContent = "Good Evening - Ajiro API Dashboard";
-            welcomeTitle.textContent = "Good Evening!";
+            welcomeTitle.textContent = "Good Evening! Welcome to ACE REST-API Dashboard";
             welcomeMessage.textContent = "Relax and explore our APIs at your pace.";
         }
 
@@ -247,13 +242,13 @@
             }
         }
         
-        const welcomeText = welcomeTitle.textContent; // Store the original text
+        const welcomeText = welcomeTitle.textContent;
 
         document.addEventListener("DOMContentLoaded", () => {
           setTimeout(() => {
-             welcomeTitle.innerHTML = ""; // Clear previous content
-             typeWriter(welcomeText); // Use stored text
-            }, 500); // Optional delay before typing starts
+             welcomeTitle.innerHTML = ""; 
+             typeWriter(welcomeText); 
+            }, 500); 
         });
     </script>
 </body>
