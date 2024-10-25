@@ -17,25 +17,35 @@
     <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/css/style.css" rel="stylesheet">
 
     <style>
-        /* Additional styles */
-        .card-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 2rem;
-            color: #6c757d;
-        }
-        .dark-mode-toggle {
-            cursor: pointer;
-        }
-        #loading-spinner {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 999;
-        }
+        /* Dark Mode */
+.dark-mode {
+    background-color: #181818;
+    color: #f1f1f1;
+}
+
+.dark-mode .card {
+    background-color: #282828;
+    border-color: #3c3c3c;
+}
+
+.dark-mode .navbar {
+    background-color: #1f1f1f;
+}
+
+/* Light Mode (default) */
+body {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.card {
+    background-color: #f8f9fc;
+    border-color: #e3e6f0;
+}
+
+.navbar {
+    background-color: #ffffff;
+}
     </style>
 </head>
 
