@@ -143,28 +143,34 @@
         const darkModeToggle = document.querySelector('.dark-mode-toggle');
         const body = document.body;
         const icon = document.getElementById('darkModeIcon');
-
+    
+        // Check for saved dark mode preference in localStorage
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            enableDarkMode();
+        }
+    
         darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            icon.classList.toggle('fa-moon');
-            icon.classList.toggle('fa-sun');
-        });
-
-        // Tooltip Initialization
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
-
-        // Loading Spinner
-        document.onreadystatechange = () => {
-            const spinner = document.getElementById('loading-spinner');
-            if (document.readyState !== "complete") {
-                spinner.style.display = "block";
+            if (body.classList.contains('dark-mode')) {
+                disableDarkMode();
             } else {
-                spinner.style.display = "none";
+                enableDarkMode();
             }
-        };
-    </script>
+        });
+    
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            localStorage.setItem('darkMode', 'enabled');  // Save preference
+        }
+    
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+            localStorage.setItem('darkMode', 'disabled'); // Save preference
+        }
+    </script>    
 </body>
 
 </html>
