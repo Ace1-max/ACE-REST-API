@@ -46,6 +46,33 @@
             font-size: 0.9rem;
             color: #6c757d;
         }
+        .typing-animation {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid; /* Cursor */
+            font-family: monospace;
+            width: 0;
+            animation: typing 4s steps(30, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: black;
+            }
+        }
     </style>
 </head>
 
@@ -211,7 +238,21 @@
             } else {
                 spinner.style.display = "none";
             }
-        };
+        }
+        
+        function typeWriter(text, i = 0) {
+            if (i < text.length) {
+                welcomeTitle.innerHTML += text.charAt(i);
+                setTimeout(() => typeWriter(text, i + 1), 100);
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                welcomeTitle.innerHTML = "";
+                typeWriter(welcomeTitle.textContent);
+            }, 500); // Optional delay before typing starts
+        });
     </script>
 </body>
 
