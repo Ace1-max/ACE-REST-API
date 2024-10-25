@@ -247,9 +247,12 @@
             }
         }
         
+        const welcomeText = welcomeTitle.textContent; // Store the original text
+
         document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                typeWriter(welcomeTitle.textContent);
+          setTimeout(() => {
+             welcomeTitle.innerHTML = ""; // Clear previous content
+             typeWriter(welcomeText); // Use stored text
             }, 500); // Optional delay before typing starts
         });
     </script>
