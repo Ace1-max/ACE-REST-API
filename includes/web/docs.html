@@ -5,17 +5,48 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="A dynamically loaded API dashboard with engaging animations and dark mode support.">
+    <meta name="author" content="Ace Gerome">
     <title id="page-title">Loading...</title> <!-- Dynamically set title -->
+    
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.8/font-awesome-animation.min.css"/>
-    <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/css/default.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/css/style.css" rel="stylesheet">
+
+    <style>
+        /* Additional styles */
+        .card-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #6c757d;
+        }
+        .dark-mode-toggle {
+            cursor: pointer;
+        }
+        #loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+        }
+    </style>
 </head>
 
 <body id="page-top" class="dark-mode">
+    <!-- Loading Spinner -->
+    <div id="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
@@ -25,7 +56,8 @@
             <hr class="sidebar-divider my-0">
             <!-- Dynamic sidebar items will be inserted here by JavaScript -->
         </ul>
-        <!-- Sidebar -->
+        
+        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <!-- TopBar -->
@@ -34,30 +66,35 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <span class="nav-link dark-mode-toggle" data-toggle="tooltip" data-placement="bottom" title="Toggle Dark Mode">
+                                <i class="fas fa-moon" id="darkModeIcon"></i>
+                            </span>
+                        </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                                <img class="img-profile rounded-circle" id="profile-photo" src="https://i.imgur.com/xwCoQ5H.jpeg" style="width: 40px; height: 40px;"> <!-- Default image replaced dynamically -->
+                                <img class="img-profile rounded-circle" id="profile-photo" src="https://i.imgur.com/xwCoQ5H.jpeg" style="width: 40px; height: 40px;">
                             </a>
                         </li>
                     </ul>
                 </nav>
-                <!-- Topbar -->
 
-                <!-- Container Fluid-->
+                <!-- Main Content -->
                 <div class="container-fluid" id="container-wrapper">
                     <!-- Welcome Card -->
                     <div class="row">
                         <div class="col-xl-12 col-md-12 mb-4">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h2 class="card-title text-primary-custom mb-4" id="welcome-title">Loading...</h2> <!-- Dynamically set welcome message -->
+                                    <h2 class="card-title text-primary-custom mb-4" id="welcome-title">Loading...</h2>
                                     <p class="mb-0">Explore our APIs by clicking on the categories in the sidebar to find the one you need.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- API Stats Cards -->
                     <div class="row">
                         <div class="col-xl-6 col-md-6 mb-4">
@@ -65,7 +102,7 @@
                                 <div class="card-body">
                                     <h6 class="stats-title" style="font-size: 0.8rem;">AVAILABLE ENDPOINTS</h6>
                                     <p class="stats-value mb-0" id="totalApis" style="font-size: 1.2rem;">Loading...</p>
-                                    <i class="fas fa-server card-icon"></i>
+                                    <i class="fas fa-server card-icon faa-tada animated"></i>
                                 </div>
                             </div>
                         </div>
@@ -74,32 +111,60 @@
                                 <div class="card-body">
                                     <h6 class="stats-title" style="font-size: 0.8rem;">CATEGORIES</h6>
                                     <p class="stats-value mb-0" id="apiCategories" style="font-size: 1.2rem;">Loading...</p>
-                                    <i class="fas fa-list-alt card-icon"></i>
+                                    <i class="fas fa-list-alt card-icon faa-flash animated"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!---Container Fluid-->
             </div>
+
             <!-- Footer -->
             <footer class="sticky-footer">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         Made with <i class="fa fa-heart faa-flash animated"></i> by
-                        <a href="https://github.com/ajirodesu" target="_blank" style="color: #3b82f6;">Lance Ajiro</a>
+                        <a href="https://github.com/AceAkira1017" target="_blank" style="color: #3b82f6;">Ace Gerome</a>
                     </div>
                 </div>
             </footer>
-            <!-- Footer -->
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/jquery/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/js/ruang-admin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/dono.js"></script>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.querySelector('.dark-mode-toggle');
+        const body = document.body;
+        const icon = document.getElementById('darkModeIcon');
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+        // Tooltip Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        // Loading Spinner
+        document.onreadystatechange = () => {
+            const spinner = document.getElementById('loading-spinner');
+            if (document.readyState !== "complete") {
+                spinner.style.display = "block";
+            } else {
+                spinner.style.display = "none";
+            }
+        };
+    </script>
 </body>
 
 </html>
