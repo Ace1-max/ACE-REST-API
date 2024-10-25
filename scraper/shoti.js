@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 exports.config = {
-    name: 'Shoti',
+    name: 'shoti',
     author: 'Ace Gerome',
     description: 'Generate random Shoti videos',
     category: 'Social',
