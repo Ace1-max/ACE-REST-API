@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="A dynamically loaded API dashboard with engaging animations and dark mode support.">
+    <meta name="description" content="A dynamically loaded API dashboard with engaging animations.">
     <meta name="author" content="Ace Gerome">
     <title id="page-title">Loading...</title> <!-- Dynamically set title -->
     
@@ -17,39 +17,39 @@
     <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/css/style.css" rel="stylesheet">
 
     <style>
-        /* Dark Mode */
-.dark-mode {
-    background-color: #181818;
-    color: #f1f1f1;
-}
-
-.dark-mode .card {
-    background-color: #282828;
-    border-color: #3c3c3c;
-}
-
-.dark-mode .navbar {
-    background-color: #1f1f1f;
-}
-
-/* Light Mode (default) */
-body {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-.card {
-    background-color: #f8f9fc;
-    border-color: #e3e6f0;
-}
-
-.navbar {
-    background-color: #ffffff;
-}
+        /* Additional styles */
+        .card-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #6c757d;
+        }
+        #loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+        }
+        .progress-bar {
+            background-color: #3b82f6;
+        }
+        /* Animated card reveal */
+        .card:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+            transition: 0.3s ease-in-out;
+        }
+        #live-time {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
     </style>
 </head>
 
-<body id="page-top" class="dark-mode">
+<body id="page-top">
     <!-- Loading Spinner -->
     <div id="loading-spinner">
         <div class="spinner-border text-primary" role="status">
@@ -76,15 +76,19 @@ body {
                         <i class="fa fa-bars"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <span class="nav-link dark-mode-toggle" data-toggle="tooltip" data-placement="bottom" title="Toggle Dark Mode">
-                                <i class="fas fa-moon" id="darkModeIcon"></i>
-                            </span>
+                        <!-- Notification Icon -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Badge -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
+                               aria-haspopup="true" aria-expanded="false">
                                 <img class="img-profile rounded-circle" id="profile-photo" src="https://i.imgur.com/xwCoQ5H.jpeg" style="width: 40px; height: 40px;">
                             </a>
                         </li>
@@ -99,7 +103,7 @@ body {
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h2 class="card-title text-primary-custom mb-4" id="welcome-title">Loading...</h2>
-                                    <p class="mb-0">Explore our APIs by clicking on the categories in the sidebar to find the one you need.</p>
+                                    <p class="mb-0" id="welcome-message">Explore our APIs by clicking on the categories in the sidebar to find the one you need.</p>
                                 </div>
                             </div>
                         </div>
@@ -122,6 +126,11 @@ body {
                                     <h6 class="stats-title" style="font-size: 0.8rem;">CATEGORIES</h6>
                                     <p class="stats-value mb-0" id="apiCategories" style="font-size: 1.2rem;">Loading...</p>
                                     <i class="fas fa-list-alt card-icon faa-flash animated"></i>
+                                    <!-- Progress Bar -->
+                                    <div class="progress mt-3">
+                                        <div class="progress-bar progress-bar-striped" id="category-progress" role="progressbar"
+                                             style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +142,7 @@ body {
             <footer class="sticky-footer">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        Made with <i class="fa fa-heart faa-flash animated"></i> by
+                        <span id="live-time"></span> | Made with <i class="fa fa-heart faa-flash animated"></i> by
                         <a href="https://github.com/AceAkira1017" target="_blank" style="color: #3b82f6;">Ace Gerome</a>
                     </div>
                 </div>
@@ -149,38 +158,61 @@ body {
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/dono.js"></script>
 
     <script>
-        // Dark Mode Toggle
-        const darkModeToggle = document.querySelector('.dark-mode-toggle');
-        const body = document.body;
-        const icon = document.getElementById('darkModeIcon');
-    
-        // Check for saved dark mode preference in localStorage
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            enableDarkMode();
+        // Dynamic Title and Welcome Message based on time
+        const hours = new Date().getHours();
+        const pageTitle = document.getElementById('page-title');
+        const welcomeTitle = document.getElementById('welcome-title');
+        const welcomeMessage = document.getElementById('welcome-message');
+
+        if (hours < 12) {
+            pageTitle.textContent = "Good Morning - Ajiro API Dashboard";
+            welcomeTitle.textContent = "Good Morning!";
+            welcomeMessage.textContent = "Start exploring our API collection.";
+        } else if (hours < 18) {
+            pageTitle.textContent = "Good Afternoon - Ajiro API Dashboard";
+            welcomeTitle.textContent = "Good Afternoon!";
+            welcomeMessage.textContent = "Hope you're having a productive day.";
+        } else {
+            pageTitle.textContent = "Good Evening - Ajiro API Dashboard";
+            welcomeTitle.textContent = "Good Evening!";
+            welcomeMessage.textContent = "Relax and explore our APIs at your pace.";
         }
-    
-        darkModeToggle.addEventListener('click', () => {
-            if (body.classList.contains('dark-mode')) {
-                disableDarkMode();
-            } else {
-                enableDarkMode();
-            }
+
+        // Tooltip Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
         });
-    
-        function enableDarkMode() {
-            body.classList.add('dark-mode');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-            localStorage.setItem('darkMode', 'enabled');  // Save preference
-        }
-    
-        function disableDarkMode() {
-            body.classList.remove('dark-mode');
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-            localStorage.setItem('darkMode', 'disabled'); // Save preference
-        }
-    </script>    
+
+        // Progress Bar Animation (simulated)
+        let progress = 0;
+        const progressBar = document.getElementById('category-progress');
+        const updateProgress = setInterval(() => {
+            if (progress < 100) {
+                progress += 10;
+                progressBar.style.width = progress + "%";
+                progressBar.textContent = progress + "%";
+                progressBar.setAttribute("aria-valuenow", progress);
+            } else {
+                clearInterval(updateProgress);
+            }
+        }, 500);
+
+        // Live Time in Footer
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('live-time').textContent = now.toLocaleString();
+        }, 1000);
+
+        // Loading Spinner
+        document.onreadystatechange = () => {
+            const spinner = document.getElementById('loading-spinner');
+            if (document.readyState !== "complete") {
+                spinner.style.display = "block";
+            } else {
+                spinner.style.display = "none";
+            }
+        };
+    </script>
 </body>
 
 </html>
