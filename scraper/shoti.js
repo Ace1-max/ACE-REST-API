@@ -1,5 +1,4 @@
 const axios = require('axios');
-const TinyURL = require('tinyurl');
 
 exports.config = {
     name: 'Shoti',
@@ -12,22 +11,17 @@ exports.config = {
 exports.initialize = async function ({ req, res, log }) {
     try {
         const { data } = await axios.get(`https://shoti-server-v2.onrender.com/api/v1/request-f`);
-        
-        const originalUrl = data.data?.url || "URL not available";
-
-        const shortenedUrl = await TinyURL.shorten(originalUrl);
 
         res.json({
-            code: data.code,
-            status: data.message,
-            response: {
-                region: data.data?.region || "Unknown",
-                url: shortenedUrl || originalUrl,
-                title: data.data?.title || "No title",
-                username: data.data?.user?.username || "Unknown user",
-                nickname: data.data?.user?.nickname || "No nickname"
-            },
-            author: "AceGerome"
+          code: data.code,
+          status: data.message,
+          response: {
+            region: data.data?.region || "Unknown",
+            url: data.data?.url || "URL not available",
+            title: data.data?.title || "No title",
+            username: data.data?.user?.username || "Unknown user",
+            nickname: data.data?.user?.nickname || "No nickname"
+          }
         });
 
     } catch (error) {
