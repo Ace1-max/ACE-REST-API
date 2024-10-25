@@ -1,14 +1,14 @@
 const axios = require('axios');
 
 exports.config = {
-    name: 'tiktok',
+    name: 'tiktokdl',
     author: 'Ace Gerome',
     description: 'Retrieve TikTok video',
     category: 'tools',
-    link: ['/tiktok?url=https://vt.tiktok.com/ZGJBQHoHA/']
+    link: ['/tiktokdl?url=https://vt.tiktok.com/ZGJBQHoHA/']
 };
 
-exports.initialize = async function ({ req, res }) {
+exports.initialize = async function ({ req, res, logs }) {
     try {
         const videoUrl = req.query.url;
 
