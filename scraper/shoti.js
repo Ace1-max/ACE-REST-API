@@ -4,7 +4,7 @@ exports.config = {
     name: 'shoti',
     author: 'Ace Gerome',
     description: 'Generate random Shoti videos',
-    category: 'Social',
+    category: 'social',
     link: ['/shoti']
 };
 
