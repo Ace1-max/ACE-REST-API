@@ -28,8 +28,8 @@ exports.initialize = async function ({ req, res }) {
     });
   }
   
-  const index = styleIndex && styleIndex > 0 && styleIndex <= styles.length
-    ? parseInt(styleIndex, 10)
+  const index = style && style > 0 && style <= styles.length
+    ? parseInt(style, 10)
     : Math.floor(Math.random() * styles.length) + 1;
 
   try {
