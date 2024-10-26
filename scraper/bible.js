@@ -4,7 +4,7 @@ exports.config = {
     name: 'bibleverse',
     author: 'AceGerome',
     description: 'Fetches a random verse for the day',
-    category: 'reading',
+    category: 'others',
     link: ['/bibleverse?day=']
 };
 
