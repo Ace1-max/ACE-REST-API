@@ -34,7 +34,7 @@ exports.initialize = async function ({ req, res }) {
             title: randomVideo.title,
             cover: randomVideo.cover,
             playUrl: randomVideo.play,
-            author: {
+            user: {
                 nickname: randomVideo.author.nickname,
                 avatar: randomVideo.author.avatar
             },
