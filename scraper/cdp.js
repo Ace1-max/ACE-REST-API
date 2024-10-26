@@ -11,7 +11,7 @@ exports.config = {
 
 exports.initialize = async function ({ req, res }) {
     try {
-        const data = fs.readFileSync(path.join(__dirname, "assets", "cdp.json"), "utf-8");
+        const data = fs.readFileSync(path.join(__dirname, "tmp", "cdp.json"), "utf-8");
         const couple = JSON.parse(data); 
         var random = Math.floor(Math.random() * couple.length);
 
