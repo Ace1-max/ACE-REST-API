@@ -7,7 +7,7 @@ exports.config = {
     author: 'AceGerome',
     description: 'Fetches random advice or searches for specific advice',
     category: 'others',
-    usage: ['/advice?type=']
+    link: ['/advice?type=']
 };
 
 exports.initialize = async function ({ req, res }) {
