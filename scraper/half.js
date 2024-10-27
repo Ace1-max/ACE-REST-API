@@ -3,11 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 exports.config = {
-    name: "half-illustration",
+    name: "halfIllustration",
     author: "AceGerome",
     description: "Generate a half illustration based on the provided text.",
     category: "image generation",
-    link: "/half-Illustration?prompt=",
+    link: "/halfIllustration?text=<input_text>",
 };
 
 async function half(q) {
@@ -43,14 +43,10 @@ async function half(q) {
 }
 
 exports.initialize = async function ({ req, res }) {
-    const { prompt } = req.query;
+    const text = req.query.text;
 
-    if (!prompt) {
-        return res.status(400).json({ 
-            status: "error",
-            author: "AceGerome", 
-            error: 'The "prompt" parameter is required.' 
-        });
+    if (!text) {
+        return res.status(400).json({ error: 'The "text" parameter is required.' });
     }
 
     const dir = path.join(__dirname, "tmp");
@@ -58,7 +54,7 @@ exports.initialize = async function ({ req, res }) {
         fs.mkdirSync(dir);
     }
 
-    const img = await half(prompt);
+    const img = await half(text);
     if (img) {
         const filePath = path.join(dir, "hf.png");
         fs.writeFileSync(filePath, img);
@@ -67,10 +63,6 @@ exports.initialize = async function ({ req, res }) {
             fs.unlinkSync(filePath); 
         });
     } else {
-        return res.status(500).json({ 
-            status: "error",
-            author: "AceGerome",
-            error: "Failed to generate image." 
-        });
+        return res.status(500).json({ error: "Failed to generate image." });
     }
 };
