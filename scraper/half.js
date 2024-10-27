@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 exports.config = {
-    name: "half Illustration ( Slow Response )",
+    name: "half Illustration",
     author: "AceGerome",
     description: "Generate a half illustration based on the provided text.",
     category: "image generation",
