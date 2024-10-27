@@ -14,7 +14,7 @@ exports.config = {
   name: 'flux',
   author: 'AceGerome',
   description: 'Generates a stylized image based on a prompt using various unique styles.',
-  category: 'Image Generation',
+  category: 'image generation',
   link: ['/flux?prompt=CAt&style=1']
 };
 
