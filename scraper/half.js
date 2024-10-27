@@ -3,11 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 exports.config = {
-    name: "half-Illustration",
+    name: "half-illustration",
     author: "AceGerome",
     description: "Generate a half illustration based on the provided text.",
     category: "image generation",
-    link: "/half?prompt=",
+    link: "/half-Illustration?prompt=",
 };
 
 async function half(q) {
