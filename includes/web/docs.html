@@ -91,7 +91,25 @@
                 <div class="sidebar-brand-text mx-3 text-primary-custom" id="config-name">Loading...</div> <!-- New placeholder for config name -->
             </div>
             <hr class="sidebar-divider my-0">
-            <!-- Dynamic sidebar items will be inserted here by JavaScript -->
+            <li class="nav-item active">
+                <a class="nav-link" href="#!">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                APIs
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" href="#!">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>API List</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#!">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Settings</span></a>
+            </li>
         </ul>
         
         <!-- Content Wrapper -->
@@ -103,19 +121,26 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
-                        <!-- Notification Icon -->
+                        <!-- Notifications Toggle -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                <!-- Badge -->
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="notificationsDropdown">
+                                <h6 class="dropdown-header">Notifications Center</h6>
+                                <button class="dropdown-item" onclick="toggleNotifications()">Toggle Notifications</button>
+                                <div id="announcements">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Update 1: New features added!</a>
+                                    <a class="dropdown-item" href="#">Update 2: Performance improvements!</a>
+                                    <a class="dropdown-item" href="#">Update 3: Bug fixes!</a>
+                                </div>
+                            </div>
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img class="img-profile rounded-circle" id="profile-photo" src="https://graph.facebook.com/100085947075503/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" style="width: 40px; height: 40px;">
                             </a>
                         </li>
@@ -169,87 +194,46 @@
             <footer class="sticky-footer">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span id="live-time"></span> | Made with <i class="fa fa-heart faa-flash animated"></i> by
-                        <a href="https://github.com/AceAkira1017" target="_blank" style="color: #3b82f6;">Ace Gerome</a>
+                        <span>Designed with <i class="fas fa-heart"></i> by Ace Gerome</span>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/jquery/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/js/ruang-admin.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/dono.js"></script>
-
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script>
-        const hours = new Date().getHours();
-        const welcomeTitle = document.getElementById('welcome-title');
-        const welcomeMessage = document.getElementById('welcome-message');
-
-        if (hours < 12) {
-            welcomeTitle.textContent = "Good Morning! Welcome to ACE REST-API Dashboard";
-            welcomeMessage.textContent = "Start exploring our API collection.";
-        } else if (hours < 18) {
-            welcomeTitle.textContent = "Good Afternoon! Welcome to ACE REST-API Dashboard";
-            welcomeMessage.textContent = "Hope you're having a productive day.";
-        } else {
-            welcomeTitle.textContent = "Good Evening! Welcome to ACE REST-API Dashboard";
-            welcomeMessage.textContent = "Relax and explore our APIs at your pace.";
+        // Function to load API data
+        function loadData() {
+            setTimeout(() => {
+                document.getElementById('totalApis').innerText = '12'; // Simulated data
+                document.getElementById('apiCategories').innerText = '3'; // Simulated data
+                document.getElementById('loading-spinner').style.display = 'none'; // Hide loading spinner
+                document.getElementById('welcome-title').innerText = 'Welcome to Your API Dashboard!';
+                document.getElementById('category-progress').style.width = '100%'; // Example progress
+                document.getElementById('category-progress').innerText = '100%';
+            }, 2000);
         }
 
-        // Tooltip Initialization
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
-
-        // Progress Bar Animation (simulated)
-        let progress = 0;
-        const progressBar = document.getElementById('category-progress');
-        const updateProgress = setInterval(() => {
-            if (progress < 100) {
-                progress += 10;
-                progressBar.style.width = progress + "%";
-                progressBar.textContent = progress + "%";
-                progressBar.setAttribute("aria-valuenow", progress);
-            } else {
-                clearInterval(updateProgress);
-            }
-        }, 500);
-
-        // Live Time in Footer
-        setInterval(() => {
+        // Function to update the live time
+        function updateLiveTime() {
             const now = new Date();
-            document.getElementById('live-time').textContent = now.toLocaleString();
-        }, 1000);
-
-        // Loading Spinner
-        document.onreadystatechange = () => {
-            const spinner = document.getElementById('loading-spinner');
-            if (document.readyState !== "complete") {
-                spinner.style.display = "block";
-            } else {
-                spinner.style.display = "none";
-            }
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('live-time').innerText = now.toLocaleString('en-US', options);
         }
-        
-        function typeWriter(text, i = 0) {
-            if (i < text.length) {
-                welcomeTitle.innerHTML += text.charAt(i);
-                setTimeout(() => typeWriter(text, i + 1), 100);
-            }
-        }
-        
-        const welcomeText = welcomeTitle.textContent;
 
-        document.addEventListener("DOMContentLoaded", () => {
-          setTimeout(() => {
-             welcomeTitle.innerHTML = ""; 
-             typeWriter(welcomeText); 
-            }, 500); 
-        });
+        // Function to toggle notifications
+        function toggleNotifications() {
+            const announcements = document.getElementById('announcements');
+            announcements.style.display = announcements.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Initial function calls
+        loadData();
+        setInterval(updateLiveTime, 1000);
     </script>
 </body>
 
