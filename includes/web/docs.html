@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Discover how easy and powerful working with REST APIs can be. Our user-friendly dashboard lets you explore and manage a range of APIs with just a few clicks. Whether you're building something new or enhancing an existing project, our tools are designed to help you work smarter and faster. Join us and experience seamless integration made simple.">
     <meta name="author" content="Ace Gerome">
-    <title id="page-title">Loading...</title>
-
+    <title id="page-title">Loading...</title> <!-- Dynamically set title -->
+    
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.8/font-awesome-animation.min.css"/>
     <link href="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -17,19 +18,61 @@
 
     <style>
         /* Additional styles */
-        .card-icon { position: absolute; top: 20px; right: 20px; font-size: 2rem; color: #6c757d; }
-        #loading-spinner { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 999; }
-        .progress-bar { background-color: #3b82f6; }
-        .card:hover { box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); transform: scale(1.02); transition: 0.3s ease-in-out; }
-        #live-time { font-size: 0.9rem; color: #6c757d; }
+        .card-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #6c757d;
+        }
+        #loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+        }
+        .progress-bar {
+            background-color: #3b82f6;
+        }
+        /* Animated card reveal */
+        .card:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+            transition: 0.3s ease-in-out;
+        }
+        #live-time {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .typing-animation {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid; /* Cursor */
+            font-family: monospace;
+            width: 0;
+            animation: typing 4s steps(30, end), blink 0.75s step-end infinite;
+        }
 
-        /* Notification toggle */
-        #notification-toggle { cursor: pointer; }
-        #notification-panel { display: none; position: absolute; top: 50px; right: 20px; background-color: white; border: 1px solid #ddd; width: 300px; padding: 15px; z-index: 1000; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-        
-        /* Profile drawer */
-        #profile-drawer { display: none; position: absolute; top: 70px; right: 0; background-color: white; border: 1px solid #ddd; width: 250px; padding: 15px; z-index: 1000; border-radius: 4px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-        #profile-drawer img { width: 60px; height: 60px; border-radius: 50%; }
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: black;
+            }
+        }
     </style>
 </head>
 
@@ -45,7 +88,7 @@
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
             <div class="sidebar-brand d-flex align-items-center justify-content-center">
-                <div class="sidebar-brand-text mx-3 text-primary-custom" id="config-name">Loading...</div>
+                <div class="sidebar-brand-text mx-3 text-primary-custom" id="config-name">Loading...</div> <!-- New placeholder for config name -->
             </div>
             <hr class="sidebar-divider my-0">
             <!-- Dynamic sidebar items will be inserted here by JavaScript -->
@@ -60,34 +103,21 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
-                        <!-- Notification Icon with Toggle -->
+                        <!-- Notification Icon -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a id="notification-toggle" class="nav-link">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
+                                <!-- Badge -->
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
-                            <div id="notification-panel">
-                                <h6>Announcements</h6>
-                                <ul class="list-unstyled">
-                                    <li>New API endpoints added!</li>
-                                    <li>Maintenance scheduled for Sunday</li>
-                                    <li>UI improvements deployed</li>
-                                </ul>
-                            </div>
                         </li>
-                        
                         <div class="topbar-divider d-none d-sm-block"></div>
-                        
-                        <!-- Profile Icon with Drawer -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link" id="profile-toggle">
-                                <img class="img-profile rounded-circle" src="https://graph.facebook.com/100085947075503/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" style="width: 40px; height: 40px;">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle" id="profile-photo" src="https://graph.facebook.com/100085947075503/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" style="width: 40px; height: 40px;">
                             </a>
-                            <div id="profile-drawer">
-                                <img src="https://graph.facebook.com/100085947075503/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" alt="Profile Photo">
-                                <p><strong>Ace Gerome</strong></p>
-                                <p><a href="https://github.com/AceAkira1017" target="_blank">View Profile</a></p>
-                            </div>
                         </li>
                     </ul>
                 </nav>
@@ -123,8 +153,10 @@
                                     <h6 class="stats-title" style="font-size: 0.8rem;">CATEGORIES</h6>
                                     <p class="stats-value mb-0" id="apiCategories" style="font-size: 1.2rem;">Loading...</p>
                                     <i class="fas fa-list-alt card-icon faa-flash animated"></i>
+                                    <!-- Progress Bar -->
                                     <div class="progress mt-3">
-                                        <div class="progress-bar progress-bar-striped" id="category-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                        <div class="progress-bar progress-bar-striped" id="category-progress" role="progressbar"
+                                             style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                                     </div>
                                 </div>
                             </div>
@@ -148,19 +180,77 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/jquery/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/js/ruang-admin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/lanceajiro/Jiro-Assets@refs/heads/main/dono.js"></script>
 
     <script>
-        // Toggle Notification Panel
-        document.getElementById('notification-toggle').addEventListener('click', function() {
-            const panel = document.getElementById('notification-panel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        const hours = new Date().getHours();
+        const welcomeTitle = document.getElementById('welcome-title');
+        const welcomeMessage = document.getElementById('welcome-message');
+
+        if (hours < 12) {
+            welcomeTitle.textContent = "Good Morning! Welcome to ACE REST-API Dashboard";
+            welcomeMessage.textContent = "Start exploring our API collection.";
+        } else if (hours < 18) {
+            welcomeTitle.textContent = "Good Afternoon! Welcome to ACE REST-API Dashboard";
+            welcomeMessage.textContent = "Hope you're having a productive day.";
+        } else {
+            welcomeTitle.textContent = "Good Evening! Welcome to ACE REST-API Dashboard";
+            welcomeMessage.textContent = "Relax and explore our APIs at your pace.";
+        }
+
+        // Tooltip Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
         });
 
-        // Toggle Profile Drawer
-        document.getElementById('profile-toggle').addEventListener('click', function() {
-            const drawer = document.getElementById('profile-drawer');
-            drawer.style.display = drawer.style.display === 'none' ? 'block' : 'none';
+        // Progress Bar Animation (simulated)
+        let progress = 0;
+        const progressBar = document.getElementById('category-progress');
+        const updateProgress = setInterval(() => {
+            if (progress < 100) {
+                progress += 10;
+                progressBar.style.width = progress + "%";
+                progressBar.textContent = progress + "%";
+                progressBar.setAttribute("aria-valuenow", progress);
+            } else {
+                clearInterval(updateProgress);
+            }
+        }, 500);
+
+        // Live Time in Footer
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('live-time').textContent = now.toLocaleString();
+        }, 1000);
+
+        // Loading Spinner
+        document.onreadystatechange = () => {
+            const spinner = document.getElementById('loading-spinner');
+            if (document.readyState !== "complete") {
+                spinner.style.display = "block";
+            } else {
+                spinner.style.display = "none";
+            }
+        }
+        
+        function typeWriter(text, i = 0) {
+            if (i < text.length) {
+                welcomeTitle.innerHTML += text.charAt(i);
+                setTimeout(() => typeWriter(text, i + 1), 100);
+            }
+        }
+        
+        const welcomeText = welcomeTitle.textContent;
+
+        document.addEventListener("DOMContentLoaded", () => {
+          setTimeout(() => {
+             welcomeTitle.innerHTML = ""; 
+             typeWriter(welcomeText); 
+            }, 500); 
         });
     </script>
 </body>
+
 </html>
