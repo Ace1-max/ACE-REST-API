@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Discover how easy and powerful working with REST APIs can be. Our user-friendly dashboard lets you explore and manage a range of APIs with just a few clicks. Whether you're building something new or enhancing an existing project, our tools are designed to help you work smarter and faster. Join us and experience seamless integration made simple.">
     <meta name="author" content="Ace Gerome">
-    <title id="page-title">Loading...</title>
+    <title id="page-title">Loading...</title> <!-- Dynamically set title -->
     
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.8/font-awesome-animation.min.css"/>
@@ -188,48 +188,69 @@
         const hours = new Date().getHours();
         const welcomeTitle = document.getElementById('welcome-title');
         const welcomeMessage = document.getElementById('welcome-message');
-        const loadingSpinner = document.getElementById('loading-spinner');
 
-        // Show loading spinner
-        loadingSpinner.style.display = 'block';
-
-        // Set welcome title based on time of day
         if (hours < 12) {
-            welcomeTitle.textContent = 'Good Morning!';
-            welcomeMessage.textContent = 'Start your day with our APIs.';
+            welcomeTitle.textContent = "Good Morning! Welcome to ACE REST-API Dashboard";
+            welcomeMessage.textContent = "Start exploring our API collection.";
         } else if (hours < 18) {
-            welcomeTitle.textContent = 'Good Afternoon!';
-            welcomeMessage.textContent = 'Explore our APIs this afternoon.';
+            welcomeTitle.textContent = "Good Afternoon! Welcome to ACE REST-API Dashboard";
+            welcomeMessage.textContent = "Hope you're having a productive day.";
         } else {
-            welcomeTitle.textContent = 'Good Evening!';
-            welcomeMessage.textContent = 'Wind down with our APIs this evening.';
+            welcomeTitle.textContent = "Good Evening! Welcome to ACE REST-API Dashboard";
+            welcomeMessage.textContent = "Relax and explore our APIs at your pace.";
         }
 
-        // Typewriter effect function
-        function typeWriter(element, text, delay = 100) {
-            let i = 0;
-            element.textContent = '';
-            const intervalId = setInterval(() => {
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
-                    i++;
-                } else {
-                    clearInterval(intervalId);
-                }
-            }, delay);
-        }
+        // Tooltip Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
 
-        // Set dynamic content
-        setTimeout(() => {
-            typeWriter(document.getElementById('apiCategories'), '5 Categories', 75);
-            typeWriter(document.getElementById('live-time'), new Date().toLocaleTimeString(), 75);
-            loadingSpinner.style.display = 'none';
-        }, 2000); // Simulate loading time of 2 seconds
+        // Progress Bar Animation (simulated)
+        let progress = 0;
+        const progressBar = document.getElementById('category-progress');
+        const updateProgress = setInterval(() => {
+            if (progress < 100) {
+                progress += 10;
+                progressBar.style.width = progress + "%";
+                progressBar.textContent = progress + "%";
+                progressBar.setAttribute("aria-valuenow", progress);
+            } else {
+                clearInterval(updateProgress);
+            }
+        }, 500);
 
-        // Function to update live time every second
+        // Live Time in Footer
         setInterval(() => {
-            document.getElementById('live-time').textContent = new Date().toLocaleTimeString();
+            const now = new Date();
+            document.getElementById('live-time').textContent = now.toLocaleString();
         }, 1000);
+
+        // Loading Spinner
+        document.onreadystatechange = () => {
+            const spinner = document.getElementById('loading-spinner');
+            if (document.readyState !== "complete") {
+                spinner.style.display = "block";
+            } else {
+                spinner.style.display = "none";
+            }
+        }
+        
+        function typeWriter(text, i = 0) {
+            if (i < text.length) {
+                welcomeTitle.innerHTML += text.charAt(i);
+                setTimeout(() => typeWriter(text, i + 1), 100);
+            }
+        }
+        
+        const welcomeText = welcomeTitle.textContent;
+
+        document.addEventListener("DOMContentLoaded", () => {
+          setTimeout(() => {
+             welcomeTitle.innerHTML = ""; 
+             typeWriter(welcomeText); 
+            }, 500); 
+        });
     </script>
 </body>
+
 </html>
