@@ -4,7 +4,7 @@ exports.config = {
   name: 'facebookdl',
   author: 'AceGerome',
   description: 'Fetches video information from a Facebook URL',
-  category: 'media',
+  category: 'tools',
   link: ['/fbdl']
 };
 
