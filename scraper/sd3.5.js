@@ -5,7 +5,7 @@ exports.config = {
     author: 'AceGerome',
     description: 'Image Generation with Stability AI SD3.5 model',
     category: 'image generation',
-    usage: ['/SD3.5?prompt=']
+    link: ['/SD3.5?prompt=']
 };
 
 exports.initialize = async function ({ req, res }) {
