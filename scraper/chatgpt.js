@@ -1,35 +1,48 @@
-const { G4F } = require("g4f");
-const g4f = new G4F();
+const axios = require('axios');
+
+const apiKey = 'S3FQPwZk2fpMigcoDUP7gIWQavmtkWx8';
+const systemPrompt = "Your a helpful assistant.";
 
 exports.config = {
     name: 'chatgpt',
-    author: 'Lance Cochangco',
-    description: 'Chat with chatGPT',
+    author: 'AceGerome',
     category: 'ai',
+    description: 'Single-response interaction with ChatGPT 3.5.',
     link: ['/chatgpt?question=hi']
 };
 
 exports.initialize = async function ({ req, res }) {
     try {
-        // Check if there is a query parameter named 'question'
-        const question = req.query.question;
-        if (!question) {
-            return res.status(400).json({ error: "add ?question=your_question_here" });
+        const prompt = req.query.question || '';
+
+        if (!prompt) {
+            return res.status(400).json({ error: "The 'question' parameter is required." });
         }
 
-        // Define messages array with system and user messages
-        const messages = [
-            { role: "system", content: "You are a helpful assistant." },
-            { role: "user", content: question }
+        const chatMessages = [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: prompt }
         ];
 
-        // Use the messages array in generating the response
-        const chat = await g4f.chatCompletion(messages);
+        const payload = {
+            model: 'openchat/openchat_3.5',
+            messages: chatMessages
+        };
 
-        // Send the AI's response as JSON
-        res.json({ content: chat });
+        const { data } = await axios.post('https://api.deepinfra.com/v1/openai/chat/completions', payload, {
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const assistantResponse = data.choices[0].message.content;
+        
+        res.json({
+            response: assistantResponse
+        });
     } catch (error) {
-        console.error("Error generating response:", error);
-        res.status(500).json({ error: "Failed to generate response" });
+        console.error("Error in chat completion:", error);
+        res.status(500).json({ error: 'An error occurred while processing your request.' });
     }
 };
