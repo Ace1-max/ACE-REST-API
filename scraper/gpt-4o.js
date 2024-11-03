@@ -25,11 +25,11 @@ const extractData = input => {
 };
 
 exports.config = {
-    name: 'darkai',
+    name: 'GPT-4o',
     author: 'AceGerome',
     description: 'A useful api like chatgpt',
     category: 'ai',
-    link: ['/darkai?ask=hi&model=gpt-4o']
+    link: ['/GPT-4o?ask=hi']
 };
 
 exports.initialize = async function ({ req, res }) {
@@ -39,19 +39,19 @@ if (!ask) {
         return res.status(400).json({ error: 'The "ask" parameter is required.' });
     }
 
-    if (!model || !AVAILABLE_MODELS.includes(model)) {
+    /*if (!model || !AVAILABLE_MODELS.includes(model)) {
         return res.status(400).json({ 
             error: 'Invalid or missing model parameter. Available models are:', 
             availableModels: AVAILABLE_MODELS 
         });
-    }
+    }*/
 
     try {
         const response = await axios.post(
             "https://darkai.foundation/chat",
             {
                 query: ask,
-                model: model
+                model: model || 'gpt-4o'
             },
             {
                 headers: {
