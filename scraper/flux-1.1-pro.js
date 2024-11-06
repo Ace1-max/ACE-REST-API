@@ -20,7 +20,7 @@ exports.initialize = async function ({ req, res }) {
 
         const response = await axios.post('https://api.deepinfra.com/v1/inference/black-forest-labs/FLUX-1.1-pro', payload, {
             headers: {
-                'Authorization': 'Bearer S3FQPwZk2fpMigcoDUP7gIWQavmtkWx8',
+                'Authorization': 'Bearer ${global.config.apikey}',
                 'Content-Type': 'application/json'
             }
         });
