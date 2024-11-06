@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const apiKey = 'S3FQPwZk2fpMigcoDUP7gIWQavmtkWx8';
+const apiKey = '${global.config.apikey}';
 const systemPrompt = "Your a helpful assistant.";
 
 exports.config = {
