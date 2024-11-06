@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const apiKey = 'S3FQPwZk2fpMigcoDUP7gIWQavmtkWx8';
+const apiKey = '${global.config.apikey}';
 
 exports.config = {
     name: 'mixtral-8b',
