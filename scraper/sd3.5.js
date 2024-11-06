@@ -22,7 +22,7 @@ exports.initialize = async function ({ req, res }) {
 
         const { data } = await axios.post('https://api.deepinfra.com/v1/inference/stabilityai/sd3.5', payload, {
             headers: {
-                'Authorization': 'Bearer S3FQPwZk2fpMigcoDUP7gIWQavmtkWx8',
+                'Authorization': 'Bearer ${global.config.apikey}',
                 'Content-Type': 'application/json'
             }
         });
