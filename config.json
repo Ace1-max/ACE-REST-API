@@ -1,5 +1,6 @@
 {
   "port": "8080",
   "name": "ACE REST-API",
-  "photo": "https://i.imgur.com/5yMk8sq.jpeg"
+  "photo": "https://i.imgur.com/5yMk8sq.jpeg",
+  "apikey": "RzXmv91E0hYIfSO8tBSRIGiyYbbe3aQt"
 }
