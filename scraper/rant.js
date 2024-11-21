@@ -5,7 +5,7 @@ exports.config = {
     author: "AceGerome",
     description: "Retrieve posts based on recipient.",
     category: "social",
-    link: "/rant?q=",
+    link: ["/rant?q="],
 };
 
 async function fetchPosts(q, page = 1, limit = 5) {
