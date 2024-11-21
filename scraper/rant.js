@@ -1,63 +1,64 @@
-const axios = require("axios");
+const axios = require('axios');
 
 exports.config = {
-  name: "rant",
-  description: "Retrieve posts based on recipient and pagination parameters",
-  author: "AceGerome",
-  category: "social",
-  link: ["/rant?q=&page=1"]
+    name: "rant",
+    author: "AceGerome",
+    description: "Retrieve posts based on recipient.",
+    category: "social",
+    link: "/rant?q=",
 };
 
+async function fetchPosts(q, page = 1, limit = 5) {
+    const url = 'https://api.sendthesong.xyz/api/posts';
+
+    try {
+        const response = await axios.get(url, {
+            params: { q, page, limit },
+            headers: {
+             'Accept': 'application/json',
+             'Content-Type': 'application/json',
+             'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36',
+             'Referer': 'https://sendthesong.xyz/'
+            }
+        });
+
+        if (response.status === 200) {
+            const data = response.data.data.map((post) => ({
+                recipient: post.recipient,
+                message: post.message,
+                song_link: `https://open.spotify.com/track/${post.song_id}`,
+                song_name: post.song_name,
+                song_artist: post.song_artist,
+                song_image: post.song_image,
+                created_at: post.created_at,
+            }));
+
+            return {
+                status: "success",
+                data,
+                page: response.data.page || 1,
+                author: "AceGerome",
+            };
+        } else {
+            console.error(`Request failed with status ${response.status}: ${response.statusText}`);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching posts:", error.message);
+        return null;
+    }
+}
+
 exports.initialize = async function ({ req, res }) {
-  const query = req.query.q;
-  const page = req.query.page || 1;
-  const limit = 5;
-
-  if (!query) {
-    return res.status(400).json({
-      status: "error",
-      message: "The 'q' parameter is required."
-    });
-  }
-
-  try {
-    const response = await axios.get(`https://api.sendthesong.xyz/api/posts`, {
-      params: {
-        q: query,
-        page,
-        limit
-      }
-    });
-
-    if (response.data.status !== "success") {
-      return res.status(500).json({
-        status: "error",
-        message: "Failed to retrieve posts from the external API."
-      });
+    const { q, page = 1, limit = 5 } = req.query; 
+    if (!q) {
+        return res.status(400).json({ error: 'The "q" parameter is required.' });
     }
 
-    const data = response.data.data.map(post => ({
-      recipient: post.recipient,
-      message: post.message,
-      song_link: `https://open.spotify.com/track/${post.song_id}`,
-      song_name: post.song_name,
-      song_artist: post.song_artist,
-      song_image: post.song_image,
-      created_at: post.created_at
-    }));
+    const postsData = await fetchPosts(q, page, limit);
 
-    res.status(200).json({
-      status: "success",
-      data,
-      total: response.data.total,
-      page: response.data.page,
-      author: "AceGerome"
-    });
-  } catch (error) {
-    console.error("Error fetching data from API:", error.message);
-    res.status(500).json({
-      status: "error",
-      message: "An error occurred while processing your request. Please try again later."
-    });
-  }
+    if (postsData) {
+        return res.status(200).json(postsData);
+        return res.status(500).json({ error: "Failed to fetch posts." });
+    }
 };
