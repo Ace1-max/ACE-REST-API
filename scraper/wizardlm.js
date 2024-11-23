@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const chatHistoryDir = 'wizardChatHistory';
-const apiKey = '${global.config.apikey}';
+const apiKey = global.config.apikey;
 
 const systemPrompt = "Respond concisely to each prompt, focusing on clarity and brevity unless a detailed answer is requested.";
 
