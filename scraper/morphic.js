@@ -2,10 +2,10 @@ const axios = require('axios');
 const FormData = require('form-data');
 
 exports.config = {
-  name: 'morphic',
+  /*name: 'morphic',
   author: 'AceGerome',
   description: 'interact with Morphic for text-based queries.',
-  category: 'ai',
+  category: 'ai',*/
   link: ['/morphic?q=what is your model']
 };
 
