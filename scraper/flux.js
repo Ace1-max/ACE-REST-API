@@ -15,7 +15,7 @@ exports.config = {
   author: 'AceGerome',
   description: 'Generates a stylized image based on a prompt using various unique styles.',
   category: 'image generation',
-  link: ['/flux?prompt=CAt&style=1']
+  link: ['/flux?prompt=&style=1']
 };
 
 exports.initialize = async function ({ req, res }) {
