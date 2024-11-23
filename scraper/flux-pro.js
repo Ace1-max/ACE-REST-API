@@ -3,7 +3,7 @@ const axios = require('axios');
 exports.config = {
     name: "FLUX-pro",
     author: "AceGerome",
-    description: "Generate an image using the Hugging Face FLUX model.",
+    description: "Generate an image using the FLUX model.",
     category: "image generation",
     link: ["/FLUX-pro?prompt="]
 };
@@ -51,6 +51,6 @@ exports.initialize = async function ({ req, res }) {
         res.setHeader('Content-Type', 'image/jpeg');
         return res.status(200).send(imageData);
     } else {
-        return res.status(500).json({ error: "Failed to generate image from Hugging Face API." });
+        return res.status(500).json({ error: "Failed to generate image API." });
     }
 };
