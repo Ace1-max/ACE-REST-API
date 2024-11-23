@@ -5,7 +5,7 @@ exports.config = {
     author: "AceGerome",
     description: "Generate an image using the Stable Diffusion model.",
     category: "image generation",
-    usage: ["/SD3.5?prompt="]
+    link: ["/SD3.5?prompt="]
 };
 
 async function generateImage(prompt) {
