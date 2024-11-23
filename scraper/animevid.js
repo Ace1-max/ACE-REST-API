@@ -78,7 +78,7 @@ async function fetchTikTokUserVideos(userId) {
             count: '300',
         },
         headers: {
-            'X-RapidAPI-Key': '3e5f7270c4msh8a6f1a971496541p132b65jsn2cbd0adfc28f',
+            'X-RapidAPI-Key': '19dcd320d3msh7d026f853e55094p16723cjsn3b381f924650',
             'X-RapidAPI-Host': 'tiktok-scraper7.p.rapidapi.com',
         },
     };
