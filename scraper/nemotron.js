@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const chatHistoryDir = 'nemotronChatHistory';
-const apiKey = '${global.config.apikey}';
+const apiKey = `${global.config.apikey}`;
 
 const systemPrompt = "Respond clearly and concisely. Provide detailed responses only when requested.";
 
