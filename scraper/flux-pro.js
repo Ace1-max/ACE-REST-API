@@ -4,7 +4,7 @@ exports.config = {
     name: "FLUX-pro",
     author: "AceGerome",
     description: "Generate an image using the Hugging Face FLUX model.",
-    category: "image",
+    category: "image generation",
     link: ["/FLUX-pro?prompt="]
 };
 
